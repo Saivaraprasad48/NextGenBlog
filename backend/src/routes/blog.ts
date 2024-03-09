@@ -64,7 +64,7 @@ blogRouter.post('/', async (c) => {
     })
 })
 
-blogRouter.put('/', async (c) => {
+blogRouter.put('/update', async (c) => {
     const body = await c.req.json();
     const { success } = updatePostInput.safeParse(body);
     if (!success) {
