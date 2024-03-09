@@ -38,7 +38,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// .wrangler/tmp/bundle-FYkddH/checked-fetch.js
+// .wrangler/tmp/bundle-tyVxgu/checked-fetch.js
 function checkURL(request, init) {
   const url = request instanceof URL ? request : new URL(
     (typeof request === "string" ? new Request(request, init) : request).url
@@ -56,7 +56,7 @@ function checkURL(request, init) {
 }
 var urls;
 var init_checked_fetch = __esm({
-  ".wrangler/tmp/bundle-FYkddH/checked-fetch.js"() {
+  ".wrangler/tmp/bundle-tyVxgu/checked-fetch.js"() {
     "use strict";
     urls = /* @__PURE__ */ new Set();
     globalThis.fetch = new Proxy(globalThis.fetch, {
@@ -10313,11 +10313,11 @@ var require_dist = __commonJS({
   }
 });
 
-// .wrangler/tmp/bundle-FYkddH/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-tyVxgu/middleware-loader.entry.ts
 init_checked_fetch();
 init_modules_watch_stub();
 
-// .wrangler/tmp/bundle-FYkddH/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-tyVxgu/middleware-insertion-facade.js
 init_checked_fetch();
 init_modules_watch_stub();
 
@@ -12543,6 +12543,39 @@ blogRouter.get("/:id", async (c) => {
     });
   }
 });
+blogRouter.delete("/delete/:id", async (c) => {
+  const id = c.req.param("id");
+  const prisma = new import_edge2.PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL
+  }).$extends(withAccelerate());
+  try {
+    console.log(id);
+    const blog = await prisma.blog.findUnique({
+      where: {
+        id: parseInt(id)
+      }
+    });
+    if (!blog) {
+      c.status(404);
+      return c.json({
+        message: "Blog post not found!"
+      });
+    }
+    await prisma.blog.delete({
+      where: {
+        id: parseInt(id)
+      }
+    });
+    return c.json({
+      message: "Blog post deleted successfully"
+    });
+  } catch (e) {
+    console.error(e);
+    c.json({
+      message: "Error while deleting blog post"
+    });
+  }
+});
 
 // node_modules/hono/dist/middleware/cors/index.js
 init_checked_fetch();
@@ -12667,7 +12700,7 @@ var jsonError = async (request, env, _ctx, middlewareCtx) => {
 var middleware_miniflare3_json_error_default = jsonError;
 var wrap2 = void 0;
 
-// .wrangler/tmp/bundle-FYkddH/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-tyVxgu/middleware-insertion-facade.js
 var envWrappers = [wrap, wrap2].filter(Boolean);
 var facade = {
   ...src_default,
@@ -12704,7 +12737,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
   ]);
 }
 
-// .wrangler/tmp/bundle-FYkddH/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-tyVxgu/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;

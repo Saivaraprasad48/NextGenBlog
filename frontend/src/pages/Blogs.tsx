@@ -25,19 +25,28 @@ export const Blogs: React.FC = () => {
             </div>
         </div>
     }
-
+ const today = new Date();
+  const formattedDate = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
     return <div>
         <Appbar />
         <div  className="flex justify-center">
-            <div>
-                {blogs.map(blog => <BlogCard
-                    id={blog.id}
-                    authorName={blog.author.name || "Anonymous"}
-                    title={blog.title}
-                    content={blog.content}
-                    publishedDate={"2nd Feb 2024"}
-                />)}
-            </div>
+           <div>
+    {blogs.length === 0 ? (
+        <p className="pt-6 text-2xl font-bold">No blogs available! Start today!</p>
+                ) : (
+                        
+        blogs.map(blog => (
+            <BlogCard
+                key={blog.id} 
+                id={blog.id}
+                authorName={blog.author.name || "Anonymous"}
+                title={blog.title}
+                content={blog.content}
+                publishedDate={formattedDate}
+            />
+        ))
+    )}
+</div>
         </div>
     </div>
 }

@@ -93,7 +93,6 @@ blogRouter.put('/update', async (c) => {
     })
 })
 
-// Todo: add pagination
 blogRouter.get('/bulk', async (c) => {
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
@@ -143,9 +142,46 @@ blogRouter.get('/:id', async (c) => {
             blog
         });
     } catch(e) {
-        c.status(411); // 4
+        c.status(411); 
         return c.json({
             message: "Error while fetching blog post"
+        });
+    }
+})
+
+blogRouter.delete('/delete/:id', async (c) => {
+    const id = c.req.param("id");
+    const prisma = new PrismaClient({
+      datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    try {
+        console.log(id)
+        const blog = await prisma.blog.findUnique({
+            where: {
+                id: parseInt(id)
+            }
+        });
+
+        if (!blog) {
+            c.status(404);
+            return c.json({
+                message: "Blog post not found!"
+            });
+        }
+        await prisma.blog.delete({
+            where: {
+                id:parseInt(id)
+            }
+        });
+
+        return c.json({
+            message: "Blog post deleted successfully"
+        });
+    } catch(e) {
+        console.error(e);
+        c.json({
+            message: "Error while deleting blog post"
         });
     }
 })
